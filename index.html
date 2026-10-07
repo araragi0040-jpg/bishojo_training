@@ -3,107 +3,190 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#fff7fb" />
-  <title>ひより日和 - 育成シミュレーション v001</title>
+  <meta name="theme-color" content="#f9dfe7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>結菜と暮らす - 育成シミュレーション v002</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="app" class="app-shell">
-    <header class="topbar">
-      <div>
-        <div class="eyebrow">LIFE SIMULATION v001</div>
-        <h1>ひより日和</h1>
+    <header class="game-header">
+      <div class="date-cluster">
+        <span id="seasonLabel" class="season">春</span>
+        <div><strong id="dayLabel">DAY 1</strong><small id="timeLabel">☀ 朝</small></div>
       </div>
-      <button id="menuBtn" class="icon-btn" aria-label="メニュー">☰</button>
+      <div class="resource-cluster">
+        <div class="resource-pill">♡ <b id="trustTop">20</b></div>
+        <div class="resource-pill">✿ <b id="moodTop">66</b></div>
+        <button id="menuBtn" class="round-btn" aria-label="メニュー">☰</button>
+      </div>
     </header>
 
-    <main>
-      <section class="hero-card">
-        <div class="day-row">
-          <span id="dayLabel">DAY 1</span>
-          <span id="timeLabel" class="pill">☀ 朝</span>
-        </div>
+    <main class="pages">
+      <section class="page active" data-page="home">
+        <div class="home-stage card">
+          <div class="stage-bg"></div>
+          <div class="petal petal-a">✿</div><div class="petal petal-b">✿</div><div class="petal petal-c">✿</div>
+          <img id="mainCharacter" class="main-character" src="assets/yuna-main.png" alt="桜井結菜" />
 
-        <div class="character-stage" id="characterStage">
-          <div class="room-deco deco-window"></div>
-          <div class="room-deco deco-plant">🌿</div>
-          <div id="character" class="character" aria-label="育成キャラクター">
-            <div class="hair-back"></div>
-            <div class="body">
-              <div class="neck"></div>
-              <div class="shirt"></div>
-            </div>
-            <div class="head">
-              <div class="hair-front"></div>
-              <div class="eye eye-left"></div>
-              <div class="eye eye-right"></div>
-              <div class="mouth"></div>
-              <div class="blush blush-left"></div>
-              <div class="blush blush-right"></div>
-            </div>
+          <div class="status-rail">
+            <div class="rail-row"><span>☺</span><div><small>機嫌</small><i><b id="happinessBar"></b></i></div><em id="happinessText">66</em></div>
+            <div class="rail-row"><span>♥</span><div><small>体力</small><i><b id="energyBar"></b></i></div><em id="energyText">80</em></div>
+            <div class="rail-row"><span>♨</span><div><small>空腹</small><i><b id="hungerBar"></b></i></div><em id="hungerText">35</em></div>
+            <div class="rail-row"><span>✿</span><div><small>信頼</small><i><b id="trustBar"></b></i></div><em id="trustText">20</em></div>
           </div>
-          <div class="mood-badge" id="moodBadge">😊 ごきげん</div>
+
+          <div class="stage-actions">
+            <button data-page-link="training" class="mini-round"><span>♧</span><small>育成</small></button>
+            <button id="talkQuick" class="mini-round"><span>💬</span><small>会話</small></button>
+            <button data-page-link="profile" class="mini-round"><span>♡</span><small>状態</small></button>
+          </div>
+
+          <div class="dialogue-card">
+            <div class="dialogue-head"><strong>桜井 結菜</strong><span id="moodBadge">にっこり</span></div>
+            <p id="speech">えへへ……来てくれたんだ？ 今日は何をしよっか。</p>
+          </div>
         </div>
 
-        <div class="speech-wrap">
-          <div class="name-row"><strong id="charNameLabel">ひより</strong><span>20歳</span></div>
-          <div id="speech" class="speech">おはよう。今日は何する？</div>
+        <div class="today-strip card">
+          <div><small>今日の状態</small><strong id="todaySummary">元気そう</strong></div>
+          <div><small>現在の体型</small><strong id="bodyTypeHome">標準</strong></div>
+          <div><small>残り行動</small><strong id="turnsLeft">4回</strong></div>
         </div>
+
+        <button id="suggestionBtn" class="suggestion-card card">
+          <span class="suggestion-icon">✦</span>
+          <div><small>結菜からのひとこと</small><strong id="suggestionText">今日は何をしようかな？</strong></div>
+          <span>›</span>
+        </button>
       </section>
 
-      <section class="quick-status">
-        <div class="status-chip"><span>❤️</span><div><b id="energyText">80</b><small>元気</small></div></div>
-        <div class="status-chip"><span>🍙</span><div><b id="hungerText">35</b><small>空腹</small></div></div>
-        <div class="status-chip"><span>✨</span><div><b id="happinessText">65</b><small>機嫌</small></div></div>
-        <div class="status-chip"><span>💤</span><div><b id="fatigueText">15</b><small>疲労</small></div></div>
-      </section>
-
-      <section class="action-panel">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">TODAY'S ACTION</div>
-            <h2>何をする？</h2>
-          </div>
-          <div id="turnsLeft" class="turns-left">残り 4</div>
+      <section class="page" data-page="training">
+        <div class="page-title-row">
+          <div><small>TRAINING</small><h1>育成</h1></div>
+          <div class="turn-badge">残り <b id="turnsLeftTraining">4</b></div>
         </div>
+
+        <div class="training-hero card">
+          <img id="trainingFace" src="assets/yuna-happy.png" alt="結菜の表情" />
+          <div><span>桜井 結菜</span><strong id="trainingSpeech">今日はなにする？</strong><small>行動の積み重ねで、体型・性格・好み・話し方が変化します。</small></div>
+        </div>
+
         <div class="action-grid">
-          <button class="action-btn" data-action="meal"><span>🍚</span><b>食事</b><small>体型・好み</small></button>
-          <button class="action-btn" data-action="exercise"><span>🏃</span><b>運動</b><small>体力・筋肉</small></button>
-          <button class="action-btn" data-action="study"><span>📚</span><b>勉強</b><small>知性・性格</small></button>
-          <button class="action-btn" data-action="play"><span>🎮</span><b>遊ぶ</b><small>幸福・好奇心</small></button>
-          <button class="action-btn" data-action="talk"><span>💬</span><b>話す</b><small>信頼・口調</small></button>
-          <button class="action-btn" data-action="rest"><span>🛋️</span><b>休む</b><small>疲労回復</small></button>
+          <button class="action-card" data-action="meal"><span class="action-icon">🍚</span><div><b>ごはん</b><small>体型・好み・機嫌</small></div><em>›</em></button>
+          <button class="action-card" data-action="exercise"><span class="action-icon">🏃‍♀️</span><div><b>運動</b><small>体力・筋肉・自信</small></div><em>›</em></button>
+          <button class="action-card" data-action="study"><span class="action-icon">📚</span><div><b>勉強</b><small>知性・好奇心</small></div><em>›</em></button>
+          <button class="action-card" data-action="play"><span class="action-icon">🛍️</span><div><b>おでかけ</b><small>社交性・幸福</small></div><em>›</em></button>
+          <button class="action-card" data-action="rest"><span class="action-icon">🫖</span><div><b>休憩</b><small>疲労・ストレス</small></div><em>›</em></button>
+          <button class="action-card" data-action="talk"><span class="action-icon">💬</span><div><b>会話</b><small>信頼・性格・口調</small></div><em>›</em></button>
+        </div>
+
+        <div class="change-preview card">
+          <div class="section-mini-title"><span>✿</span><b>育成で変わること</b></div>
+          <div class="change-grid">
+            <div><span>◒</span><b>体型</b><small>食事と運動</small></div>
+            <div><span>♡</span><b>性格</b><small>毎日の選択</small></div>
+            <div><span>☕</span><b>好み</b><small>経験の蓄積</small></div>
+            <div><span>💭</span><b>話し方</b><small>信頼と性格</small></div>
+          </div>
         </div>
       </section>
 
-      <section class="tabs-card">
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="body">からだ</button>
-          <button class="tab" data-tab="personality">性格</button>
-          <button class="tab" data-tab="likes">好み</button>
-          <button class="tab" data-tab="log">記録</button>
+      <section class="page" data-page="profile">
+        <div class="page-title-row">
+          <div><small>PROFILE</small><h1>ステータス</h1></div>
+          <span id="profileMood" class="soft-pill">穏やか</span>
         </div>
-        <div id="tabContent" class="tab-content"></div>
+
+        <div class="profile-hero card">
+          <img id="profileFace" src="assets/yuna-happy.png" alt="桜井結菜" />
+          <div class="profile-copy">
+            <small>さくらい ゆうな</small>
+            <h2>桜井 結菜</h2>
+            <p>20歳・160cm</p>
+            <div class="personality-tags" id="personalityTags"></div>
+          </div>
+        </div>
+
+        <div class="profile-grid-two">
+          <div class="card radar-card">
+            <div class="section-mini-title"><span>✿</span><b>基本ステータス</b></div>
+            <canvas id="radarCanvas" width="320" height="280" aria-label="性格レーダーチャート"></canvas>
+          </div>
+          <div class="card expression-card">
+            <div class="section-mini-title"><span>☺</span><b>表情</b></div>
+            <div class="expression-grid">
+              <img src="assets/yuna-happy.png" alt="笑顔"><img src="assets/yuna-shy.png" alt="照れ"><img src="assets/yuna-surprised.png" alt="驚き"><img src="assets/yuna-pout.png" alt="むすっと">
+            </div>
+          </div>
+        </div>
+
+        <div class="card body-card">
+          <div class="section-mini-title"><span>◒</span><b>体型バリエーション</b><small id="bodyDetail">現在：標準</small></div>
+          <div class="body-options">
+            <div class="body-option" data-body-variant="slender"><img src="assets/body-slender.png" alt="スレンダー"><b>スレンダー</b></div>
+            <div class="body-option" data-body-variant="standard"><img src="assets/body-standard.png" alt="標準"><b>標準</b></div>
+            <div class="body-option" data-body-variant="soft"><img src="assets/body-soft.png" alt="ふっくら"><b>ふっくら</b></div>
+          </div>
+        </div>
+
+        <div class="card detail-card">
+          <div class="detail-row"><span>体重</span><b id="weightText">50.5kg</b></div>
+          <div class="detail-row"><span>体脂肪率</span><b id="bodyFatText">23.5%</b></div>
+          <div class="detail-row"><span>筋肉量</span><b id="muscleText">20.8</b></div>
+          <div class="detail-row"><span>話し方</span><b id="speakingStyleText">自然体で穏やか</b></div>
+        </div>
+
+        <div class="card likes-card">
+          <div class="section-mini-title"><span>♡</span><b>好きなもの</b></div>
+          <div id="likesList" class="tag-list"></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="record">
+        <div class="page-title-row">
+          <div><small>MEMORY</small><h1>成長記録</h1></div>
+          <span class="soft-pill">自動保存</span>
+        </div>
+        <div class="card record-summary">
+          <div><small>経過日数</small><b id="recordDays">1日</b></div>
+          <div><small>運動回数</small><b id="recordExercise">0回</b></div>
+          <div><small>勉強回数</small><b id="recordStudy">0回</b></div>
+        </div>
+        <div id="logList" class="log-list"></div>
       </section>
     </main>
+
+    <nav class="bottom-nav" aria-label="メインナビゲーション">
+      <button class="nav-btn active" data-nav="home"><span>⌂</span><small>ホーム</small></button>
+      <button class="nav-btn" data-nav="training"><span>✿</span><small>育成</small></button>
+      <button class="nav-btn" data-nav="profile"><span>♡</span><small>状態</small></button>
+      <button class="nav-btn" data-nav="record"><span>▤</span><small>記録</small></button>
+    </nav>
   </div>
 
   <div id="drawer" class="drawer" aria-hidden="true">
     <div class="drawer-backdrop" data-close="drawer"></div>
     <aside class="drawer-panel">
-      <div class="drawer-head"><b>メニュー</b><button class="icon-btn" data-close="drawer">✕</button></div>
-      <button id="renameBtn" class="menu-item">✏️ 名前を変更</button>
-      <button id="newGameBtn" class="menu-item danger">↻ 新しく育てる</button>
-      <div class="menu-note">データはこの端末のブラウザに自動保存されます。</div>
+      <div class="drawer-head"><div><small>GAME MENU</small><b>結菜と暮らす</b></div><button class="round-btn" data-close="drawer">×</button></div>
+      <div class="menu-profile"><img src="assets/yuna-happy.png" alt="結菜"><div><b>桜井 結菜</b><small>育成データは端末内に自動保存</small></div></div>
+      <button id="openSheetBtn" class="menu-item">✿ キャラクター設定を見る</button>
+      <button id="newGameBtn" class="menu-item danger">↻ 育成データをリセット</button>
+      <p class="menu-note">v001の保存データが同じブラウザにある場合、初回起動時に育成値を自動で引き継ぎます。</p>
     </aside>
   </div>
 
   <div id="modal" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="modal"></div>
     <section class="modal-card" role="dialog" aria-modal="true">
-      <div class="modal-head"><div><div class="eyebrow" id="modalEyebrow">ACTION</div><h3 id="modalTitle">選択</h3></div><button class="icon-btn" data-close="modal">✕</button></div>
+      <div class="modal-head"><div><small id="modalEyebrow">ACTION</small><h3 id="modalTitle">選択</h3></div><button class="round-btn" data-close="modal">×</button></div>
       <div id="modalBody" class="modal-body"></div>
     </section>
+  </div>
+
+  <div id="sheetModal" class="sheet-modal" aria-hidden="true">
+    <button class="sheet-close" data-close="sheet">×</button>
+    <img src="assets/yuna-character-sheet.png" alt="桜井結菜 キャラクター設定シート" />
   </div>
 
   <div id="toast" class="toast" role="status"></div>
